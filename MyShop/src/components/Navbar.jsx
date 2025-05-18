@@ -13,7 +13,7 @@ const Navbar = () => {
       {/* Desktop Navigation */}
       <nav className="ph:hidden dt:flex fixed top-0 border-b-5 border-gray-200 left-0 right-0 h-20 bg-black text-white flex items-center justify-between px-10 z-50">
         <div className="space-x-10 flex items-center">
-          <Link to="/home">MyShop</Link>
+          <Link to="/">MyShop</Link>
           <Link to="/Profile" className="font-semibold text-2xl">
             <img src={FrameProfile} alt="profile" className="w-6 h-6" />
           </Link>
@@ -22,7 +22,9 @@ const Navbar = () => {
           </Link>
           <Link></Link>
         </div>
-        <Link to="/signin" className="text-white">sign in</Link>
+        <Link to="/signin" className="text-white">
+          sign in
+        </Link>
       </nav>
 
       {/* Mobile Navigation */}
@@ -41,14 +43,15 @@ const Navbar = () => {
       >
         <Link to="/">MyShop</Link>
         <div className="flex flex-col items-center pt-24 space-y-6">
-          <Link to="/signin" className="text-white">sign in</Link>
+          <Link to="/signin" className="text-white">
+            sign in
+          </Link>
           <Link to="/Profile" className="font-semibold text-2xl">
             <img src={FrameProfile} alt="profile" className="w-6 h-6" />
           </Link>
           <Link to="/Cart">
             <img src={FrameCart} alt="cart" className="w-6 h-6" />
           </Link>
-          
         </div>
       </div>
     </>
