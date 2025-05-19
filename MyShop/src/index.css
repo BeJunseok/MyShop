@@ -4,8 +4,6 @@
   --breakpoint-ph: 360px;
   --breakpoint-dt: 1440px;
 }
-<<<<<<< HEAD
-=======
 
 @layer components {
   .input {
@@ -20,4 +18,3 @@
     @apply text-red-500 text-sm mt-1;
   }
 }
->>>>>>> 2041d9b80a9e55dd08809092e5540ab33da08d60
