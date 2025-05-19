@@ -1,7 +1,9 @@
+import clsx from "clsx";
+
 // 공통 버튼 컴포넌트
 const Button = ({
   children,
-  variant = "primary",
+  variant = "default",
   disabled = false,
   type = "button",
   className = "",
@@ -9,18 +11,25 @@ const Button = ({
 }) => {
   // 공통 스타일
   const baseStyles =
-    "w-full px-4 py-2 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
+    "px-4 py-2 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
 
   // variant에 따라 다른 스타일 적용
   const variants = {
-    primary: "bg-blue-500 text-white hover:bg-blue-600 focus:ring-green-400",
-    secondary: "bg-green-500 text-white hover:bg-green-600 focus:ring-blue-400",
+    default: "bg-blue-500 text-white hover:bg-blue-600 focus:ring-green-400",
+    Cart: "bg-blue-500 text-white hover:bg-blue-600 cursor-pointer",
     SignIn:
-      "bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-400 disabled:bg-gray-400 disabled:cursor-not-allowed",
+      "w-full bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-400 ",
   };
 
   // 최종 스타일
-  const buttonStyles = `${baseStyles} ${variants[variant]} ${className}`;
+  const buttonStyles = clsx(
+    baseStyles,
+    variants[variant],
+    variant === "SignIn" &&
+      disabled &&
+      "bg-gray-400 opacity-50 cursor-not-allowed",
+    className
+  );
 
   return (
     <button
