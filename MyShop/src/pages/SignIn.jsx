@@ -22,8 +22,12 @@ const SignIn = () => {
 
   // 제출 성공시 실행되는 함수
   const onSubmit = (data) => {
+    // 하이픈을 제거한 전화번호로 저장
+    const cleanedPhone = data.phone.replace(/[^0-9]/g, "");
+    const formattedData = { ...data, phone: cleanedPhone };
+
     alert("회원가입이 완료되었습니다!");
-    console.log(data);
+    console.log(formattedData);
     nav("/"); // Home 페이지로 이동
   };
 
@@ -64,10 +68,12 @@ const SignIn = () => {
               placeholder="전 화 번 호"
               {...register("phone", {
                 required: "전화번호를 입력해주세요",
-                pattern: {
-                  value: /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/,
-                  message:
-                    "올바른 전화번호 형식이 아닙니다. (예: 010-1234-5678)",
+                validate: (value) => {
+                  const digitsOnly = value.replace(/[^0-9]/g, "");
+                  return (
+                    /^0\d{8,10}$/.test(digitsOnly) ||
+                    "올바른 전화번호 형식이 아닙니다"
+                  );
                 },
               })}
               className="input"
