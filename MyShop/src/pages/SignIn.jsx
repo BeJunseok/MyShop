@@ -1,12 +1,14 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 
 const SignIn = () => {
+  const nav = useNavigate();
+
   const {
     register, // 입력 필드를 폼 상태와 연결
     handleSubmit, // 제출 시 실행할 핸들러
     formState: { errors, isValid }, // 에러 객체와 유효성 검사 결과
-    reset, // 폼 초기화 함수
   } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -22,7 +24,7 @@ const SignIn = () => {
   const onSubmit = (data) => {
     alert("회원가입이 완료되었습니다!");
     console.log(data);
-    reset(); // 폼 초기화
+    nav("/");   // Home 페이지로 이동
   };
 
   return (
