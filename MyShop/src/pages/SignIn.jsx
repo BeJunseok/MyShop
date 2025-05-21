@@ -24,17 +24,19 @@ const SignIn = () => {
   const onSubmit = (data) => {
     alert("회원가입이 완료되었습니다!");
     console.log(data);
-    nav("/");   // Home 페이지로 이동
+    nav("/"); // Home 페이지로 이동
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 ">
-      <div className="px-4 py-8 mx-auto max-w-md w-full rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold m-8 text-center">회원가입</h1>
+      <div className="ph:w-full dt:w-[500px] px-4 py-8 mx-auto max-w-md w-full rounded-lg shadow-md">
+        <h1 className="ph:text-2xl dt:text-3xl font-bold m-8 text-center">
+          회원가입
+        </h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
           autoComplete="on"
-          className="space-y-6"
+          className="ph:space-y-4 dt:space-y-6"
         >
           {/* 이름 입력 */}
           <div>

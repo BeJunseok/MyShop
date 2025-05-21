@@ -16,9 +16,9 @@ const Button = ({
   // variant에 따라 다른 스타일 적용
   const variants = {
     default: "bg-blue-500 text-white hover:bg-blue-600 focus:ring-green-400",
-    Cart: "bg-blue-500 text-white hover:bg-blue-600 cursor-pointer",
+    Cart: "bg-blue-500 text-white hover:bg-blue-600 cursor-pointer ph:text-sm dt:text-base",
     SignIn:
-      "w-full bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-400 ",
+      "w-full bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-400 ph:text-base dt:text-lg",
   };
 
   // 최종 스타일
