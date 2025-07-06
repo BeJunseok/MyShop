@@ -3,35 +3,54 @@ import FrameCart from "../assets/FrameCart.svg";
 import FrameProfile from "../assets/FrameProfile.svg";
 import FrameHamburger from "../assets/FrameHamburger.svg";
 import { useState } from "react";
-import Home from "../pages/Home.jsx";
+import SearchBar from "./SearchBar";
 
-const Navbar = () => {
+const Navbar = ({ onSearch, resetSearch }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="ph:hidden dt:flex fixed top-0 border-b-5 border-gray-200 left-0 right-0 h-20 bg-black text-white flex items-center justify-between px-10 z-50">
-        <div className="space-x-10 flex items-center">
-          <Link to="/">MyShop</Link>
-          <Link to="/Profile" className="font-semibold text-2xl">
+      <nav className="hidden md:flex fixed top-0 left-0 right-0 h-20 bg-black text-white px-10 items-center z-50 border-b border-gray-200">
+        <div className="flex items-center space-x-10">
+          <Link
+            to="/"
+            onClick={resetSearch}
+            className="font-bold text-xl cursor-pointer"
+          >
+            MyShop
+          </Link>
+          <Link to="/Profile">
             <img src={FrameProfile} alt="profile" className="w-6 h-6" />
           </Link>
           <Link to="/Cart">
             <img src={FrameCart} alt="cart" className="w-6 h-6" />
           </Link>
-          <Link></Link>
         </div>
-        <Link to="/signin" className="text-white">
-          sign in
-        </Link>
+
+        <div className="flex-grow flex justify-center">
+          <SearchBar onSearch={onSearch} />
+        </div>
+
+        <div>
+          <Link to="/signin" className="text-white">
+            sign in
+          </Link>
+        </div>
       </nav>
 
       {/* Mobile Navigation */}
-      <nav
-        className={`dt:hidden ph:flex fixed top-0 border-b-1 border-gray-600 left-0 right-0 h-20 bg-black text-white items-center justify-between px-6 z-50`}
-      >
-        <Link to="/">MyShop</Link>
+      <nav className="flex md:hidden fixed top-0 left-0 right-0 h-20 bg-black text-white px-6 items-center justify-between z-50 border-b border-gray-600">
+        <Link
+          to="/"
+          onClick={resetSearch}
+          className="font-bold text-xl cursor-pointer"
+        >
+          MyShop
+        </Link>
+        <div className="flex-grow flex justify-center">
+          <SearchBar onSearch={onSearch} />
+        </div>
         <button className="text-white" onClick={() => setIsOpen(!isOpen)}>
           <img src={FrameHamburger} alt="hamburger" className="w-6 h-6" />
         </button>
@@ -39,14 +58,26 @@ const Navbar = () => {
 
       {/* Mobile SideBar */}
       <div
-        className={`dt:hidden ph:fixed top-0 right-0 h-full w-36 bg-black transform transition-transform duration-100 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} z-40`}
+        className={`md:hidden fixed top-0 right-0 h-full w-36 bg-black transform transition-transform duration-100 ease-in-out ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        } z-40`}
       >
-        <Link to="/">MyShop</Link>
+        <Link
+          to="/"
+          onClick={() => {
+            resetSearch();
+            setIsOpen(false);
+          }}
+          className="block text-white font-bold text-xl px-4 py-4"
+        >
+          MyShop
+        </Link>
+
         <div className="flex flex-col items-center pt-24 space-y-6">
           <Link to="/signin" className="text-white">
             sign in
           </Link>
-          <Link to="/Profile" className="font-semibold text-2xl">
+          <Link to="/Profile">
             <img src={FrameProfile} alt="profile" className="w-6 h-6" />
           </Link>
           <Link to="/Cart">

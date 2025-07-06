@@ -1,48 +1,48 @@
 [
   {
-    "productImage": "/src/assets/Backpack.png",
+    "productImage": "/src/assets/Product-basic.png",
     "category": "Accessories",
     "name": "Backpack",
     "price": "79.99"
   },
   {
-    "productImage": "/src/assets/Headphones.png",
+    "productImage": "/src/assets/Product-basic.png",
     "category": "Electronics",
     "name": "Headphones",
     "price": "129.99"
   },
   {
-    "productImage": "/src/assets/Jacket.png",
+    "productImage": "/src/assets/Product-basic.png",
     "category": "Clothing",
     "name": "Jacket",
     "price": "69.99"
   },
   {
-    "productImage": "/src/assets/PhoneCase.png",
+    "productImage": "/src/assets/Product-basic.png",
     "category": "Accessories",
     "name": "Phone Case",
     "price": "19.99"
   },
   {
-    "productImage": "/src/assets/RunningShoes.png",
+    "productImage": "/src/assets/Product-basic.png",
     "category": "Footwear",
     "name": "Running Shoes",
     "price": "89.99"
   },
   {
-    "productImage": "/src/assets/SmartWatch.png",
+    "productImage": "/src/assets/Product-basic.png",
     "category": "Electronics",
     "name": "Smart Watch",
     "price": "199.99"
   },
   {
-    "productImage": "/src/assets/Sunglasses.png",
+    "productImage": "/src/assets/Product-basic.png",
     "category": "Accessories",
     "name": "Sunglasses",
     "price": "34.99"
   },
   {
-    "productImage": "/src/assets/Tshirt.png",
+    "productImage": "/src/assets/Product-basic.png",
     "category": "Clothing",
     "name": "T-Shirt",
     "price": "24.99"
