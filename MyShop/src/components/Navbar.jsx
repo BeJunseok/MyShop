@@ -5,7 +5,7 @@ import FrameHamburger from "../assets/FrameHamburger.svg";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
 
-const Navbar = ({ onSearch, resetSearch }) => {
+const Navbar = ({ onSearch, resetSearch, hideSearch }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -29,7 +29,7 @@ const Navbar = ({ onSearch, resetSearch }) => {
         </div>
 
         <div className="flex-grow flex justify-center">
-          <SearchBar onSearch={onSearch} />
+          {!hideSearch && <SearchBar onSearch={onSearch} />}
         </div>
 
         <div>
@@ -49,7 +49,7 @@ const Navbar = ({ onSearch, resetSearch }) => {
           MyShop
         </Link>
         <div className="flex-grow flex justify-center">
-          <SearchBar onSearch={onSearch} />
+          {!hideSearch && <SearchBar onSearch={onSearch} />}
         </div>
         <button className="text-white" onClick={() => setIsOpen(!isOpen)}>
           <img src={FrameHamburger} alt="hamburger" className="w-6 h-6" />

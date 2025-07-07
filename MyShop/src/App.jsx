@@ -3,9 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
-import Navbar from "./components/Navbar";
 import Cart from "./pages/Cart";
 import { CartProvider } from "./components/CartContext";
+import Layout from "./layouts/Layout";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,12 +15,18 @@ function App() {
   return (
     <CartProvider>
       <BrowserRouter>
-        <Navbar onSearch={setSearchTerm} resetSearch={resetSearch} />
         <Routes>
-          <Route path="/" element={<Home searchTerm={searchTerm} />} />
-          <Route path="/Cart" element={<Cart />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="*" element={<NotFound />} />
+          <Route
+            path="/"
+            element={
+              <Layout onSearch={setSearchTerm} resetSearch={resetSearch} />
+            }
+          >
+            <Route index element={<Home searchTerm={searchTerm} />} />
+            <Route path="/Cart" element={<Cart />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </CartProvider>
