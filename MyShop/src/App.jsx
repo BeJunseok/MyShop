@@ -6,6 +6,7 @@ import NotFound from "./pages/NotFound";
 import Cart from "./pages/Cart";
 import { CartProvider } from "./components/CartContext";
 import Layout from "./layouts/Layout";
+import Register from "./pages/Register";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,15 +17,11 @@ function App() {
     <CartProvider>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <Layout onSearch={setSearchTerm} resetSearch={resetSearch} />
-            }
-          >
+          <Route path="/" element={<Layout onSearch={setSearchTerm} resetSearch={resetSearch} />}>
             <Route index element={<Home searchTerm={searchTerm} />} />
             <Route path="/Cart" element={<Cart />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

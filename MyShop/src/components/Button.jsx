@@ -19,16 +19,18 @@ const Button = ({
     Cart: "bg-blue-500 text-white hover:bg-blue-600 cursor-pointer ph:text-sm dt:text-base",
     SignIn:
       "w-full bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-400 ph:text-base dt:text-lg",
+    Register:
+      "w-full bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-400 ph:text-base dt:text-lg",
   };
 
   // 최종 스타일
   const buttonStyles = clsx(
     baseStyles,
     variants[variant],
-    variant === "SignIn" &&
+    ["Register", "SignIn"].includes(variant) &&
       disabled &&
       "bg-gray-400 opacity-50 cursor-not-allowed",
-    className
+    className,
   );
 
   return (
