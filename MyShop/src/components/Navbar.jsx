@@ -13,11 +13,7 @@ const Navbar = ({ onSearch, resetSearch, hideSearch }) => {
       {/* Desktop Navigation */}
       <nav className="hidden md:flex fixed top-0 left-0 right-0 h-20 bg-black text-white px-10 items-center z-50 border-b border-gray-200">
         <div className="flex items-center space-x-10">
-          <Link
-            to="/"
-            onClick={resetSearch}
-            className="font-bold text-xl cursor-pointer"
-          >
+          <Link to="/" onClick={resetSearch} className="font-bold text-xl cursor-pointer">
             MyShop
           </Link>
           <Link to="/Profile">
@@ -41,11 +37,7 @@ const Navbar = ({ onSearch, resetSearch, hideSearch }) => {
 
       {/* Mobile Navigation */}
       <nav className="flex md:hidden fixed top-0 left-0 right-0 h-20 bg-black text-white px-6 items-center justify-between z-50 border-b border-gray-600">
-        <Link
-          to="/"
-          onClick={resetSearch}
-          className="font-bold text-xl cursor-pointer"
-        >
+        <Link to="/" onClick={resetSearch} className="font-bold text-xl cursor-pointer">
           MyShop
         </Link>
         <div className="flex-grow flex justify-center">

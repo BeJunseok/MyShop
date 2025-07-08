@@ -23,11 +23,7 @@ const ProductCard = ({ productImage, category, name, price }) => {
       )}
 
       <div className="w-full flex justify-center">
-        <img
-          src={productImage}
-          alt={name}
-          className="h-32 object-contain mb-4"
-        />
+        <img src={productImage} alt={name} className="h-32 object-contain mb-4" />
       </div>
       <p className="text-sm text-gray-500">{category}</p>
       <h2 className="text-lg pt-4 font-semibold">{name}</h2>
