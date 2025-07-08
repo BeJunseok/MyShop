@@ -20,31 +20,9 @@ const Cart = () => {
     );
   }
 
-  // 상품별 수량 합산
-  const aggregatedItems = cartItems.reduce((acc, item) => {
-    const exist = acc.find((i) => i.name === item.name);
-    if (exist) {
-      exist.quantity += 1;
-    } else {
-      acc.push({ name: item.name, quantity: 1 });
-    }
-    return acc;
-  }, []);
-
-  // 상세정보 합치기
-  const detailedCartItems = aggregatedItems.map(({ name, quantity }) => {
-    const productInfo = productsData.find((p) => p.name === name) || {};
-    return {
-      ...productInfo,
-      quantity,
-    };
-  });
-
+  console.log(cartItems);
   // 총 주문 금액 계산
-  const totalPrice = detailedCartItems.reduce(
-    (sum, item) => sum + parseFloat(item.price) * item.quantity,
-    0,
-  );
+  const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const discount = 0;
   const finalPrice = totalPrice - discount;
@@ -64,7 +42,7 @@ const Cart = () => {
             <div className="w-32 text-right">가격</div>
           </div>
 
-          {detailedCartItems.map((item, index) => (
+          {cartItems.map((item, index) => (
             <div key={index} className="mb-4 flex items-center justify-between border-b pb-2">
               <div className="flex items-center gap-4" style={{ width: "50%" }}>
                 <img
@@ -78,7 +56,7 @@ const Cart = () => {
               <p className="flex-1 text-center font-semibold">{item.quantity} 개</p>
 
               <p className="w-32 text-right font-bold">
-                ${(parseFloat(item.price) * item.quantity).toFixed(2)}
+                ${(item.price * item.quantity).toLocaleString()}
               </p>
             </div>
           ))}
