@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { useCart } from "../components/CartContext";
-import productsData from "../data/products.json";
 
 const Cart = () => {
   const { cartItems } = useCart();
@@ -20,7 +19,6 @@ const Cart = () => {
     );
   }
 
-  console.log(cartItems);
   // 총 주문 금액 계산
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 

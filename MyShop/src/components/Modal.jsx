@@ -28,7 +28,7 @@ const Modal = ({ onClose }) => {
         <div className="flex justify-center gap-4">
           <button
             onClick={() => nav("/")}
-            className="text-sm text-blue-600 underline hover:text-blue-900 hover:cursor-pointer"
+            className="text-sm text-blue-600 underline hover:text-blue-900 px-4 py-2 hover:cursor-pointer"
           >
             쇼핑 계속하기
           </button>
