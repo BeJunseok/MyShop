@@ -1,31 +1,40 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import products from "../data/products.json";
 import { useCart } from "../components/CartContext";
 import Button from "../components/Button";
 import Modal from "../components/Modal";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
+import { fetchProductById } from "../apis/products";
+import { useQuery } from "@tanstack/react-query";
 
 const Detail = () => {
   const { id } = useParams(); // URL에서 상품 id 가져오기
-  const [product, setProduct] = useState(null); // 선택된 상품 정보
-  const [quantity, setQuntity] = useState(1); // 구매 수량
-  const [liked, setLiked] = useState(false); // 찜 여부
-  const [loading, setLoading] = useState(true); // 로딩 상태
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 표시 여부
   const { addToCart } = useCart(); // 장비구니 추가
 
-  // 상품 데이터 로딩
-  useEffect(() => {
-    const found = products.find((p) => String(p.id) === id);
-    setProduct(found);
-    setLoading(false);
-  }, [id]);
+  const [quantity, setQuntity] = useState(1); // 구매 수량
+  const [liked, setLiked] = useState(false); // 찜 여부
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 표시 여부
+
+  const {
+    data: product,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["product", id],
+    queryFn: () => fetchProductById(id),
+  });
 
   // 로딩 중 UI
-  if (loading) {
+  if (isLoading) {
     return <div className="mt-36 text-center font-bold text-gray-500">로딩중...</div>;
+  }
+
+  if (isError) {
+    return (
+      <div className="mt-36 text-center font-bold text-gray-500">에러 발생: {error.message}</div>
+    );
   }
 
   // 상품이 없는 경우 예외 처리
@@ -79,6 +88,10 @@ const Detail = () => {
             <div className="flex justify-between">
               <h1 className="text-2xl font-bold">{product.name}</h1>
               <span className="font-semibold">$ {product.price}</span>
+            </div>
+
+            <div>
+              <p className="text-gray-500 text-sm truncate max-w-sm">{product.description}</p>
             </div>
 
             {/* 수량 조절 */}
