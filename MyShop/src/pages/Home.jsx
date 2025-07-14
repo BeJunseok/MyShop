@@ -1,6 +1,6 @@
 import ProductCard from "../components/ProductCard";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { fetchAllProducts } from "../apis/products";
 
 export default function Home({ searchTerm = "" }) {
   const [products, setProducts] = useState([]);
@@ -8,10 +8,10 @@ export default function Home({ searchTerm = "" }) {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const loadProducts = async () => {
       try {
-        const res = await axios.get("https://supersweetcorn.store/products");
-        setProducts(res.data);
+        const data = await fetchAllProducts();
+        setProducts(data);
         setLoading(false);
       } catch (error) {
         setIsError(true);
@@ -23,7 +23,8 @@ export default function Home({ searchTerm = "" }) {
         }
       }
     };
-    fetchProducts();
+
+    loadProducts();
   }, []);
 
   // 검색어가 2글자 이상일 때만 필터 적용, 아니면 전체를 보이게
