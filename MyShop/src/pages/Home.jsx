@@ -1,51 +1,48 @@
 import ProductCard from "../components/ProductCard";
 import { useEffect, useState } from "react";
-import { fetchAllProducts } from "../apis/products";
+import { fetchAllProducts, fetchProductsByName } from "../apis/products";
 
 export default function Home({ searchTerm = "" }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const loadProducts = async () => {
+      setLoading(true);
+      setErrorMsg("");
       try {
-        const data = await fetchAllProducts();
-        setProducts(data);
-        setLoading(false);
-      } catch (error) {
-        setIsError(true);
-        setLoading(false);
-        if (error.response && error.response.status === 500) {
-          console.error("Error 500: 서버 오류가 발생했습니다");
+        let data;
+        if (searchTerm.length >= 2) {
+          data = await fetchProductsByName(searchTerm);
         } else {
-          console.error("Error fetching products:", error);
+          data = await fetchAllProducts();
         }
+        setProducts(data || []);
+      } catch (error) {
+        // handleApiError에서 한글 메시지로 throw됨
+        setProducts([]);
+        setErrorMsg(error.message);
+      } finally {
+        setLoading(false);
       }
     };
-
     loadProducts();
-  }, []);
-
-  // 검색어가 2글자 이상일 때만 필터 적용, 아니면 전체를 보이게
-  const filteredProducts =
-    searchTerm.length >= 2
-      ? products.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
-      : products;
+  }, [searchTerm]);
 
   if (loading) {
     return <div className="mt-36 px-24">로딩 중...</div>;
   }
 
-  if (isError) {
-    return <div className="mt-36 px-24 text-red-500">상품을 불러오는 중 오류가 발생했습니다.</div>;
+  if (errorMsg) {
+    return <div className="mt-36 px-24 text-red-500">{errorMsg}</div>;
   }
 
   return (
     <div className="mt-36 px-24">
       <div className="grid ph:grid-cols-2 dt:grid-cols-4 gap-6">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product, index) => <ProductCard key={index} {...product} />)
+        {products.length > 0 ? (
+          products.map((product) => <ProductCard key={product.id} {...product} />)
         ) : (
           <p className="text-center col-span-full mt-20 text-gray-500">검색 결과가 없습니다.</p>
         )}
