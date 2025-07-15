@@ -7,11 +7,11 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
-  // 상품 추가 함수
+  // 상품 추가
   const addToCart = (product, quantity = 1) => {
     setCartItems((prevItems) => {
-      const exisiting = prevItems.find((item) => item.id === product.id);
-      if (exisiting) {
+      const existing = prevItems.find((item) => item.id === product.id);
+      if (existing) {
         return prevItems.map((item) =>
           item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item,
         );
@@ -21,7 +21,16 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  return <CartContext.Provider value={{ cartItems, addToCart }}>{children}</CartContext.Provider>;
+  // 상품 제거
+  const removeFromCart = (product) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== product.id));
+  };
+
+  return (
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+      {children}
+    </CartContext.Provider>
+  );
 };
 
 // 커스텀 훅으로 Context 사용
