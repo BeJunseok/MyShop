@@ -1,5 +1,5 @@
-import ProductCard from "../components/ProductCard";
 import { useEffect, useState } from "react";
+import ProductCard from "../components/ProductCard";
 import { fetchAllProducts, fetchProductsByName } from "../apis/products";
 
 export default function Home({ searchTerm = "" }) {
@@ -18,9 +18,21 @@ export default function Home({ searchTerm = "" }) {
         } else {
           data = await fetchAllProducts();
         }
-        setProducts(data || []);
+
+        // 응답 구조에 따라 배열만 추출
+        let productArray = [];
+        if (Array.isArray(data)) {
+          productArray = data;
+        } else if (data && Array.isArray(data.products)) {
+          productArray = data.products;
+        } else if (data && Array.isArray(data.data)) {
+          productArray = data.data;
+        } else {
+          productArray = [];
+        }
+
+        setProducts(productArray);
       } catch (error) {
-        // handleApiError에서 한글 메시지로 throw됨
         setProducts([]);
         setErrorMsg(error.message);
       } finally {
