@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useCart } from "../components/CartContext";
-import Button from "../components/Button";
-import Modal from "../components/Modal";
-import { FaRegHeart } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
 import { fetchProductById } from "../apis/products";
 import { useQuery } from "@tanstack/react-query";
+
+import Modal from "../components/detail/Modal";
+import ProductInfo from "../components/detail/ProductInfo";
+import ProductImage from "../components/detail/ProductImage";
 
 const Detail = () => {
   const { id } = useParams(); // URL에서 상품 id 가져오기
   const { addToCart } = useCart(); // 장비구니 추가
 
-  const [quantity, setQuntity] = useState(1); // 구매 수량
+  const [quantity, setQuantity] = useState(1); // 구매 수량
   const [liked, setLiked] = useState(false); // 찜 여부
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 표시 여부
 
@@ -31,6 +31,7 @@ const Detail = () => {
     return <div className="mt-36 text-center font-bold text-gray-500">로딩중...</div>;
   }
 
+  // 에러 발생시
   if (isError) {
     return (
       <div className="mt-36 text-center font-bold text-gray-500">에러 발생: {error.message}</div>
@@ -56,72 +57,32 @@ const Detail = () => {
   };
 
   // 수량 감소
-  const hanldeDecrease = () => {
-    if (quantity > 1) setQuntity((prev) => prev - 1);
+  const handleDecrease = () => {
+    if (quantity > 1) setQuantity((prev) => prev - 1);
   };
 
   // 수량 증가
   const handleIncrease = () => {
-    setQuntity((prev) => prev + 1);
+    setQuantity((prev) => prev + 1);
   };
 
   return (
     <>
       {/* 상세 페이지 */}
       <div className="mt-36 mx-auto px-24 min-w-4xl max-w-6xl">
-        <div className=" bg-white rounded-2xl shadow-lg p-4 flex text-black">
-          {/* 이미지 */}
-          <div className="flex flex-1 items-center">
-            <img src={product.productImage} className="w-50 " />
-          </div>
-
-          {/* 카테고리 + 찜 버튼 */}
-          <div className="flex flex-col flex-1 gap-5 mr-2">
-            <div className="flex justify-between">
-              <p>{product.category}</p>
-              <button onClick={handleLike} className="text-xl">
-                {liked ? <FaHeart /> : <FaRegHeart />}
-              </button>
-            </div>
-
-            {/* 상품명 + 가격 */}
-            <div className="flex justify-between">
-              <h1 className="text-2xl font-bold">{product.name}</h1>
-              <span className="font-semibold">$ {product.price}</span>
-            </div>
-
-            <div>
-              <p className="text-gray-500 text-sm truncate max-w-sm">{product.description}</p>
-            </div>
-
-            {/* 수량 조절 */}
-            <div className="flex justify-between">
-              <p>구매 수량</p>
-              <div className="flex gap-3">
-                <button onClick={hanldeDecrease} className="text-xl cursor-pointer">
-                  -
-                </button>
-                <span className="text-lg">{quantity}</span>
-                <button onClick={handleIncrease} className="text-xl cursor-pointer">
-                  +
-                </button>
-              </div>
-            </div>
-
-            {/* 총 상품 금액 */}
-            <div className="flex justify-between">
-              <p>총 상품 금액</p>
-              <span>$ {(Number(product.price) * quantity).toLocaleString()}</span>
-            </div>
-
-            {/* 장바구니 버튼 */}
-            <Button variant="Cart" onClick={handleAddToCart}>
-              Add to Cart
-            </Button>
-          </div>
+        <div className=" bg-white rounded-2xl shadow-lg p-4 text-black flex">
+          <ProductImage product={product} />
+          <ProductInfo
+            product={product}
+            liked={liked}
+            handleLike={handleLike}
+            quantity={quantity}
+            handleDecrease={handleDecrease}
+            handleIncrease={handleIncrease}
+            handleAddToCart={handleAddToCart}
+          />
         </div>
       </div>
-
       {/* 모달 표시 */}
       {isModalOpen && <Modal onClose={() => setIsModalOpen(false)} />}
     </>
