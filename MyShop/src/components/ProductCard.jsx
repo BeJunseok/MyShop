@@ -31,7 +31,7 @@ const ProductCard = ({ id, productImage, category, name, price }) => {
         <p className="text-sm text-gray-500">{category}</p>
         <h2 className="text-lg pt-4 font-semibold">{name}</h2>
         <div className="w-full flex justify-between items-center mt-2">
-          <p className="text-base font-bold">${price}</p>
+          <p className="text-base font-bold">{price.toLocaleString()} 원</p>
           <Button variant="Cart" onClick={handleAddToCart}>
             Add to Cart
           </Button>
