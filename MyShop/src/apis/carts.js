@@ -12,10 +12,10 @@ export async function fetchCart() {
   }
 }
 
-export async function fetchAddToCart({ product_id, quantity }) {
+export async function fetchAddToCart({ productId, quantity }) {
   try {
     const response = await instance.post(`/carts?userId=${TEMP_USER_ID}`, {
-      product_id,
+      productId,
       quantity,
     });
     return response.data;
@@ -24,9 +24,9 @@ export async function fetchAddToCart({ product_id, quantity }) {
   }
 }
 
-export async function fetchRemoveCartItem(product_id) {
+export async function fetchRemoveCartItem(id) {
   try {
-    const response = await instance.delete(`/carts/${product_id}?userId=${TEMP_USER_ID}`);
+    const response = await instance.delete(`/carts/${id}?userId=${TEMP_USER_ID}`);
     return response.data;
   } catch (err) {
     handleApiError(err);

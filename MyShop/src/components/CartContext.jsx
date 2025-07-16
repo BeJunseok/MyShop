@@ -1,4 +1,6 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
+import { fetchAddToCart, fetchCart, fetchRemoveCartItem } from "../apis/carts";
+import toast from "react-hot-toast";
 
 // Context 생성
 const CartContext = createContext();
@@ -7,27 +9,56 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
-  // 상품 추가
-  const addToCart = (product, quantity = 1) => {
-    setCartItems((prevItems) => {
-      const existing = prevItems.find((item) => item.id === product.id);
-      if (existing) {
-        return prevItems.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item,
-        );
+  // 장바구니 로딩
+  useEffect(() => {
+    const loadCart = async () => {
+      try {
+        const data = await fetchCart();
+        setCartItems(data.cartItems);
+      } catch (err) {
+        toast(err.message, { duration: 3000, icon: "🚨" });
       }
+    };
 
-      return [...prevItems, { ...product, quantity }];
-    });
+    loadCart();
+  }, []);
+
+  // 상품 추가
+  const addToCart = async (product, quantity = 1) => {
+    try {
+      await fetchAddToCart({ productId: product.id, quantity });
+      const data = await fetchCart();
+      setCartItems(data.cartItems);
+    } catch (err) {
+      toast(err.message, { duration: 3000, icon: "🚨" });
+    }
   };
 
   // 상품 제거
-  const removeFromCart = (product) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== product.id));
+  const removeFromCart = async (product) => {
+    try {
+      await fetchRemoveCartItem(product.id);
+      const data = await fetchCart();
+      setCartItems(data.cartItems);
+    } catch (err) {
+      toast(err.message, { duration: 3000, icon: "🚨" });
+    }
+  };
+
+  // 상품 여러개 제거
+  const removeMulFromCart = async (ids) => {
+    try {
+      await Promise.all(ids.map((id) => fetchRemoveCartItem(id)));
+
+      const data = await fetchCart();
+      setCartItems(data.cartItems);
+    } catch (err) {
+      toast(err.message, { duration: 3000, icon: "🚨" });
+    }
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, removeMulFromCart }}>
       {children}
     </CartContext.Provider>
   );

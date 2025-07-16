@@ -2,11 +2,11 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { useCart } from "../components/CartContext";
 import { MdRemoveShoppingCart } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Cart = () => {
-  const { cartItems, removeFromCart } = useCart();
-  const [selectedIds, setSeletedIds] = useState([]);
+  const { cartItems, removeFromCart, removeMulFromCart } = useCart();
+  const [selectedIds, setSelectedIds] = useState([]);
   const navigate = useNavigate();
 
   const isAllSelected =
@@ -15,26 +15,23 @@ const Cart = () => {
   // 전체 선택 토글
   const handleToggleAll = () => {
     if (isAllSelected) {
-      setSeletedIds([]);
+      setSelectedIds([]);
     } else {
-      setSeletedIds(cartItems.map((item) => item.id));
+      setSelectedIds(cartItems.map((item) => item.id));
     }
   };
 
   // 개별 선택 토글
   const handleToggleItem = (id) => {
-    setSeletedIds((prev) =>
-      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [prev, id],
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id],
     );
   };
 
   // 선택된 상품 삭제
   const handleDeleteSelected = () => {
-    selectedIds.forEach((id) => {
-      const target = cartItems.find((item) => item.id === id);
-      if (target) removeFromCart(target);
-    });
-    setSeletedIds([]);
+    removeMulFromCart(selectedIds);
+    setSelectedIds([]);
   };
 
   const handleGoShopping = () => {
