@@ -7,14 +7,18 @@ import { useQuery } from "@tanstack/react-query";
 import Modal from "../components/detail/Modal";
 import ProductInfo from "../components/detail/ProductInfo";
 import ProductImage from "../components/detail/ProductImage";
+import { useAuth } from "../components/AuthContext";
+import { LoginModal } from "../components/modal/LoginModal";
 
 const Detail = () => {
   const { id } = useParams(); // URL에서 상품 id 가져오기
   const { addToCart } = useCart(); // 장비구니 추가
+  const { isLoggedIn } = useAuth();
 
   const [quantity, setQuantity] = useState(1); // 구매 수량
   const [liked, setLiked] = useState(false); // 찜 여부
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 표시 여부
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const {
     data: product,
@@ -47,6 +51,10 @@ const Detail = () => {
 
   // 장비구니 상품 추가 + 모달 열기
   const handleAddToCart = () => {
+    if (!isLoggedIn) {
+      setShowLoginModal(true);
+      return;
+    }
     addToCart(product, quantity);
     setIsModalOpen(true);
   };
@@ -85,6 +93,7 @@ const Detail = () => {
       </div>
       {/* 모달 표시 */}
       {isModalOpen && <Modal onClose={() => setIsModalOpen(false)} />}
+      {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
     </>
   );
 };

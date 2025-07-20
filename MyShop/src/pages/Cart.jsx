@@ -3,10 +3,14 @@ import Button from "../components/Button";
 import { useCart } from "../components/CartContext";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import { useEffect, useState } from "react";
+import { useAuth } from "../components/AuthContext";
+import { LoginModal } from "../components/modal/LoginModal";
 
 const Cart = () => {
   const { cartItems, removeFromCart, removeMulFromCart } = useCart();
+  const { isLoggedIn } = useAuth();
   const [selectedIds, setSelectedIds] = useState([]);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const navigate = useNavigate();
 
   const isAllSelected =
@@ -36,6 +40,15 @@ const Cart = () => {
 
   const handleGoShopping = () => {
     navigate("/");
+  };
+
+  const handleOrder = () => {
+    if (!isLoggedIn) {
+      setShowLoginModal(true);
+      return;
+    }
+    // 주문 로직 (예시: alert)
+    alert("주문이 완료되었습니다!");
   };
 
   if (!cartItems || cartItems.length === 0) {
@@ -134,7 +147,10 @@ const Cart = () => {
               <span>{finalPrice.toLocaleString()} 원</span>
             </div>
           </div>
-          <Button className="mt-6">주문하기</Button>
+          <Button className="mt-6" onClick={handleOrder}>
+            주문하기
+          </Button>
+          {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
         </div>
       </div>
     </div>

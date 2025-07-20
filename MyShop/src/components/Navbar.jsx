@@ -2,11 +2,23 @@ import { Link } from "react-router-dom";
 import FrameCart from "../assets/FrameCart.svg";
 import FrameProfile from "../assets/FrameProfile.svg";
 import FrameHamburger from "../assets/FrameHamburger.svg";
+import { useAuth } from "./AuthContext";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
+import { LoginModal } from "./modal/LoginModal";
 
 const Navbar = ({ onSearch, resetSearch, hideSearch }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isLoggedIn, logout } = useAuth();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  const handleCartClick = (e) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      setShowLoginModal(true);
+    }
+    // else: 링크 이동
+  };
 
   return (
     <>
@@ -19,7 +31,7 @@ const Navbar = ({ onSearch, resetSearch, hideSearch }) => {
           <Link to="/Profile">
             <img src={FrameProfile} alt="profile" className="w-6 h-6" />
           </Link>
-          <Link to="/Cart">
+          <Link to="/Cart" onClick={handleCartClick}>
             <img src={FrameCart} alt="cart" className="w-6 h-6" />
           </Link>
         </div>
@@ -29,9 +41,15 @@ const Navbar = ({ onSearch, resetSearch, hideSearch }) => {
         </div>
 
         <div>
-          <Link to="/signin" className="text-white">
-            sign in
-          </Link>
+          {isLoggedIn ? (
+            <button onClick={logout} className="text-white">
+              Logout
+            </button>
+          ) : (
+            <Link to="/signin" className="text-white">
+              sign in
+            </Link>
+          )}
         </div>
       </nav>
 
@@ -72,11 +90,12 @@ const Navbar = ({ onSearch, resetSearch, hideSearch }) => {
           <Link to="/Profile">
             <img src={FrameProfile} alt="profile" className="w-6 h-6" />
           </Link>
-          <Link to="/Cart">
+          <Link to="/Cart" onClick={handleCartClick}>
             <img src={FrameCart} alt="cart" className="w-6 h-6" />
           </Link>
         </div>
       </div>
+      {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
     </>
   );
 };

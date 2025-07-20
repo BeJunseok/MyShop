@@ -1,21 +1,24 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import { useAuth } from "../components/AuthContext";
 
 const Signin = () => {
   const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useAuth();
 
   const isValid = email.trim() !== "" && password.trim() !== "";
 
   // 추후 백엔드와 연결
   const handleSingIn = (e) => {
-    e.preventDefault();   // 새로고침 방지
+    e.preventDefault(); // 새로고침 방지
 
     if (email === "test@example.com" && password === "1234") {
       alert("로그인 성공!");
-      nav("/");   // Home 페이지로 이동
+      login(); // 로그인 상태 변경
+      nav("/"); // Home 페이지로 이동
     } else {
       alert("이메일 또는 비밀번호가 틀렸습니다.");
     }
