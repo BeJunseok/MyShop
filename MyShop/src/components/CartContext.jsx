@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { fetchAddToCart, fetchCart, fetchRemoveCartItem } from "../apis/carts";
 import toast from "react-hot-toast";
+import { useAuth } from "./AuthContext";
 
 // Context 생성
 const CartContext = createContext();
@@ -8,10 +9,12 @@ const CartContext = createContext();
 // Provider 컴포넌트
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const { isLoggedIn } = useAuth();
 
   // 장바구니 로딩
   useEffect(() => {
     const loadCart = async () => {
+      if (!isLoggedIn) return;
       try {
         const data = await fetchCart();
         setCartItems(data.cartItems);
@@ -21,7 +24,7 @@ export const CartProvider = ({ children }) => {
     };
 
     loadCart();
-  }, []);
+  }, [isLoggedIn]);
 
   // 상품 추가
   const addToCart = async (product, quantity = 1) => {

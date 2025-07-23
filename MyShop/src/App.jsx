@@ -9,6 +9,7 @@ import Layout from "./layouts/Layout";
 import Register from "./pages/Register";
 import Detail from "./pages/Detail";
 import { Toaster } from "react-hot-toast";
+import KakaoRedirect from "./pages/\bKakoRedirect";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,6 +28,7 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/register" element={<Register />} />
             <Route path="/product/:id" element={<Detail />} />
+            <Route path="/login/oauth2/code/kakao" element={<KakaoRedirect />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

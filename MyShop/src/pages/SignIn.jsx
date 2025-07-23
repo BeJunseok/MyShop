@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { useAuth } from "../components/AuthContext";
+import KakaoLogo from "../assets/kakao_login_medium_narrow.png";
 
 const Signin = () => {
   const nav = useNavigate();
@@ -12,16 +13,25 @@ const Signin = () => {
   const isValid = email.trim() !== "" && password.trim() !== "";
 
   // 추후 백엔드와 연결
-  const handleSingIn = (e) => {
+  const handleLogIn = (e) => {
     e.preventDefault(); // 새로고침 방지
 
     if (email === "test@example.com" && password === "1234") {
       alert("로그인 성공!");
-      login(); // 로그인 상태 변경
+      login();
       nav("/"); // Home 페이지로 이동
     } else {
       alert("이메일 또는 비밀번호가 틀렸습니다.");
     }
+  };
+
+  const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+  const REST_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
+
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+  const handleKakoLogin = () => {
+    window.location.href = kakaoURL;
   };
 
   return (
@@ -29,7 +39,7 @@ const Signin = () => {
       <div className="ph:w-full dt:w-[500px] px-4 py-8 mx-auto max-w-md w-full rounded-lg shadow-md">
         <h1 className="ph:text-2xl dt:text-3xl font-bold m-8 text-center">로그인</h1>
         <form
-          onSubmit={handleSingIn}
+          onSubmit={handleLogIn}
           autoComplete="on"
           noValidate
           className="ph:space-y-4 dt:space-y-6"
@@ -70,10 +80,10 @@ const Signin = () => {
 
         {/* 카카오톡 로그인 버튼 */}
         <button
-          type="button"
+          onClick={handleKakoLogin}
           className="w-full h-[40px] mt-4 flex justify-center bg-kakao rounded-md cursor-pointer"
         >
-          <img src="src/assets/kakao_login_medium_narrow.png" className="w-46" />
+          <img src={KakaoLogo} className="w-46" />
         </button>
 
         {/* 회원가입 페이지로 링크 */}
