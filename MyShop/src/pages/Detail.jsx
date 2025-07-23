@@ -7,13 +7,14 @@ import { useQuery } from "@tanstack/react-query";
 import Modal from "../components/detail/Modal";
 import ProductInfo from "../components/detail/ProductInfo";
 import ProductImage from "../components/detail/ProductImage";
-import { useAuth } from "../components/AuthContext";
+
 import { LoginModal } from "../components/modal/LoginModal";
+import { useAuthStore } from "../stores/authStore";
 
 const Detail = () => {
   const { id } = useParams(); // URL에서 상품 id 가져오기
   const { addToCart } = useCart(); // 장비구니 추가
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   const [quantity, setQuantity] = useState(1); // 구매 수량
   const [liked, setLiked] = useState(false); // 찜 여부

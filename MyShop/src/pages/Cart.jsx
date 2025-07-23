@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { useCart } from "../components/CartContext";
 import { MdRemoveShoppingCart } from "react-icons/md";
-import { useEffect, useState } from "react";
-import { useAuth } from "../components/AuthContext";
+import { useState } from "react";
 import { LoginModal } from "../components/modal/LoginModal";
+import { useAuthStore } from "../stores/authStore";
 
 const Cart = () => {
   const { cartItems, removeFromCart, removeMulFromCart } = useCart();
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [selectedIds, setSelectedIds] = useState([]);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const navigate = useNavigate();

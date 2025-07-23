@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
-import { useAuth } from "../components/AuthContext";
 import KakaoLogo from "../assets/kakao_login_medium_narrow.png";
 
 const Signin = () => {
   const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
 
   const isValid = email.trim() !== "" && password.trim() !== "";
 
@@ -18,7 +16,7 @@ const Signin = () => {
 
     if (email === "test@example.com" && password === "1234") {
       alert("로그인 성공!");
-      login();
+      //로그인 구현
       nav("/"); // Home 페이지로 이동
     } else {
       alert("이메일 또는 비밀번호가 틀렸습니다.");

@@ -2,12 +2,12 @@ import { useState } from "react";
 import Button from "./Button";
 import { useCart } from "./CartContext";
 import { Link } from "react-router-dom";
-import { useAuth } from "./AuthContext";
 import { LoginModal } from "./modal/LoginModal";
+import { useAuthStore } from "../stores/authStore";
 
 const ProductCard = ({ id, productImage, category, name, price }) => {
   const { addToCart } = useCart();
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [showAlert, setShowAlert] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 

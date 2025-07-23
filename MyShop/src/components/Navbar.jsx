@@ -2,14 +2,15 @@ import { Link } from "react-router-dom";
 import FrameCart from "../assets/FrameCart.svg";
 import FrameProfile from "../assets/FrameProfile.svg";
 import FrameHamburger from "../assets/FrameHamburger.svg";
-import { useAuth } from "./AuthContext";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
 import { LoginModal } from "./modal/LoginModal";
+import { useAuthStore } from "../stores/authStore";
 
 const Navbar = ({ onSearch, resetSearch, hideSearch }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoggedIn, logout } = useAuth();
+  const clearAuth = useAuthStore((state) => state.clearAuth);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const handleCartClick = (e) => {
@@ -42,7 +43,7 @@ const Navbar = ({ onSearch, resetSearch, hideSearch }) => {
 
         <div>
           {isLoggedIn ? (
-            <button onClick={logout} className="text-white">
+            <button onClick={clearAuth} className="text-white">
               Logout
             </button>
           ) : (
