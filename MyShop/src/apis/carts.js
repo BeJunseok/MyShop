@@ -24,7 +24,7 @@ export async function fetchAddToCart({ productId, quantity }) {
 
 export async function fetchRemoveCartItem(id) {
   try {
-    const response = await instance.delete("/carts/${id}");
+    const response = await instance.delete(`/carts/${id}`);
     return response.data;
   } catch (err) {
     handleApiError(err);
